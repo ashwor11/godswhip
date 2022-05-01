@@ -6,7 +6,7 @@ const topic_get = async (req, res) => {
     const topicname = req.params.topicname;
     await Topic.findOne({topic: topicname}).
     then(async (result)=>{
-        await Entry.find({topicId: result._id}).sort({createdAt:-1}).exec()
+        await Entry.find({topicId: result._id})
         .then((entries)=>{
             res.render('entry', {entries: entries, topic: result, title: result.topic})
         })
@@ -18,7 +18,7 @@ const topic_get = async (req, res) => {
 }
 
 const topic_index_get = async (req,res)=>{
-    await Topic.find()
+    await Topic.find().sort('-date')
     .then((result)=>{
         res.render('index', {title: "Home", topics:result})
     })

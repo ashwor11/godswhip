@@ -27,7 +27,7 @@ const entry_add_post = async (req,res) =>{
         entry.save()
         .then((createdEntry) => {
             topic.entries.push(createdEntry._id)
-            topic.lastInteraction = Date.now();
+            topic.date = Date.now();
             topic.save()
             .then(async(updatedTopic) => {
                 const user = await User.findOne({username: res.locals.user.username})
