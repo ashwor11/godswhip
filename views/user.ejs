@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%-include('./inc/head.ejs') %>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <%-include('./inc/nav.ejs') %>
+      
+
+        <% if (profile ){
+          var followers = profile.followers.length %>
+          <div class="container">
+            
+          <img class="profilephotograph center" src="data:<%=profile.picture.contentType%>;base64,
+                       <%=profile.picture.data.toString('base64')%>"
+                       width="200px" height="200px">
+              <% } %>
+              <div class="text-center mt-3"> <span class="bg-secondary p-1 px-4 rounded text-white"><%=profile.username%></span></div>
+              <div class="text-center mt-3"><span class="coloredText">following <%=profile.followings.length%> · followed by <%= followers%></span></div>
+
+              <% if (user) {%>
+                <% if (user.username == profile.username){%>
+                  
+                  <div class="text-center mt-3"><a href="/user/update" class="btn btn-secondary">Update profile</a></div>
+                <% }else { var isFollowing = user.followings.includes(profile.username)
+                  var followClass = isFollowing ? "Unfollow" : "Follow" %>
+                  <div class="text-center mt-3"><button class="btn btn-secondary <%=followClass%>" data-doc="<%=followClass + "/" + profile.username%>"><%=followClass%></button></div>
+                <% }}%>
+
+
+
+
+              <div class="text-center center mt-3 coloredText" style="width: 50%;"><%-profile.biography%></div>
+
+              <div class="entries">
+                <% entries.forEach((entry, index)=>{
+                  var liked = "/non-liked.svg"
+                  if ( user && entry.likes.authors.includes(user.username)){
+                  liked = "/liked.svg"
+                  }%>
+                    <hr>
+                  <h5> <a href="/entry/<%= entry._id %>" class="coloredText underline"><%- entry.topic %> </a>  </h5>
+                  <div id="<%=entry._id %>" class="entry"><%- entry.entry%></div>
+            <% if (user && (user.isAdmin || user.username == entry.author)){ %> <a class="del underline d-flex justify-content-end" href="" data-doc="<%=entry._id%>">Delete</a>%> <% } %>
+            <div class="d-flex justify-content-end p-2">
+                
+                <button class="btn btn-sm like" data-doc="<%=entry._id%>" id="likebtn"> <img class=""src="<%=liked%>" width="25" height="25" class="d-inline-block align"></button><small class="mt-1 pe-2" id="like<%=entry._id%>"><%= entry.likes.count%></small><small class="mt-1 underline " href="/user/<%=entry.author%>">written by <a class="underline" href="/user/<%=entry.author%>"><%=entry.author%></a></small>
+                
+            </div>
+            <small class="d-flex justify-content-end "><%= entry.createdAt%></small>
+      
+                <%})%>
+
+              </div>
+            </div>
+        
+        
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            
+
+    <%-include('./inc/footer.ejs') %>
+
+    
+    <script>
+     
+     $('.Follow, .Unfollow').click(function(){
+       
+
+      var url = '/user/' + $(this).attr('data-doc')
+      fetch(url, {
+        method: 'GET',
+      })
+      .then((response)=>response.json())
+      .then((data)=>{
+        if (data){
+          $(this).toggleClass('follow').toggleClass('unfollow')
+          $(this).attr('data-doc', function(i, val) {
+            return val == "follow/<%=profile.username%>"  ? "unfollow/<%=profile.username%>" : "follow/<%=profile.username%>";
+          });
+          $(this).text(function(i, val) {
+            return val == "Follow" ? "Unfollow" : "Follow"
+          })
+        }
+
+      })
+      .catch((error)=>{
+        console.error(error)
+      })
+     })
+
+     
+        // Like get
+        const like = $('button.like')
+
+        const likes = [].slice.call(like)
+
+        likes.forEach((item, i)=>{
+            item.addEventListener('click', (e)=>{
+                const url = `/entry/like/${item.dataset.doc}`
+                fetch(url,{
+                    method: 'GET'
+                }).then((response)=>response.json())
+                .then((data)=>{
+                    $('#like'+ data._id).text(data.likes.count)
+                    var img = '/liked.svg'
+                    var img1 = '/non-liked.svg'
+                    $(item).children().attr('src', $(item).children().attr('src') == img ? img1 : img)
+                    
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+            })
+        })
+
+        //Delete get
+        const del = $('a.del')
+
+        const dels = [].slice.call(del)
+
+        dels.forEach((item, i)=>{
+
+
+            item.addEventListener('mouseover', (e)=>{
+                if($(this).attr('src' ) == '/non-liked.svg'){
+                    $(item).attr('src', '/liked.svg' )
+                }
+            })
+            
+            item.addEventListener('click',(e)=>{
+                const url = `/entry/delete/${item.dataset.doc}`
+                fetch(url,{
+                    method: 'DELETE'
+                })
+                .then((response)=>response.json())
+                .then((data)=>{
+                    if(data){
+                        window.location.reload()
+                    }else{
+                        alert('Could not deleted')
+                    }
+
+                })
+                .catch((error)=>{
+                    console.error(error)
+                })
+            })
+        })
+
+        
+
+
+
+    
+
+var form = document.getElementById('addEntry');
+
+//Create entry post
+
+
+    //Focus
+    $('document').on('focus')
+    </script>
+  </body>
+</html>

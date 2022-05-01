@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./inc/head.ejs') %>
+</head>
+<body>
+    
+    <%- include('./inc/nav.ejs') %>
+    <div class="container mt-2">
+        <ul class="indexList">
+    <% topics.forEach((topic)=>{ %>
+        
+            <li><a class="underline mt-1" href="/topic/<%=topic.topic%>"><%=topic.topic%></a></li>
+    <%})%>
+        </ul>
+    </div>
+    
+
+    <%-include('./inc/footer.ejs') %>
+
+
+
+
+    <script>
+        
+    </script>
+</body>
+</html>

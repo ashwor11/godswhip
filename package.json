@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-balloon": "^34.0.0",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "moongose": "^1.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4"
+  },
+  "name": "godswhip",
+  "version": "1.0.0",
+  "description": "a blog page",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon -e js,ejs,html -w . -w public -w views -w routes -w models app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "blog",
+    "godswhip"
+  ],
+  "author": "ashwor11",
+  "license": "ISC"
+}

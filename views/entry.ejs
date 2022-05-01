@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./inc/head.ejs') %>
+</head>
+<body>
+    <%- include('./inc/nav.ejs') %>
+    <% if (topic){ %>
+        
+    <div class = "container mt-5">
+        <h3 class = "entryTopic"><%=topic.topic%></h3>
+        
+        <% entries.forEach((entry, index)=>{
+            var liked = "/non-liked.svg"
+            if ( user && entry.likes.authors.includes(user.username)){
+                liked = "/liked.svg"
+        }%>
+            <hr>
+            <div id="<%=entry._id %>" class="entry"><%- entry.entry%></div>
+            <% if (user && (user.isAdmin || user.username == entry.author)){ %> <a class="del underline d-flex justify-content-end" href="" data-doc="<%=entry._id%>">Delete</a>%> <% } %>
+            <div class="d-flex justify-content-end p-2">
+                
+                <button class="btn btn-sm like" data-doc="<%=entry._id%>" id="likebtn"> <img class=""src="<%=liked%>" width="25" height="25" class="d-inline-block align"></button><small class="mt-1 pe-2" id="like<%=entry._id%>"><%= entry.likes.count%></small><small class="mt-1 underline " href="/user/<%=entry.author%>">written by <a class="underline" href="/user/<%=entry.author%>"><%=entry.author%></a></small>
+                
+            </div>
+            <small class="d-flex justify-content-end "><%= entry.createdAt%></small>
+            
+        <%})%>
+        <% } %>
+    <% if (user){ %>
+    <form action="/entry/add" method="post" id="addEntry" onsubmit="return createEntry(event);" >
+        <div class="col-md-12 entry" id="entry" name="entry" class="entry" rows="10" placeholder="Write what you think" ></div>
+        <button id="addEntry1" type="submit" class="btn btn-secondary mt-2">Submit</button>
+    </form>
+    <% } else { %>
+        <h5>You need to be logged in to add entry.</h5>
+    <% } %>
+    <% var test =topic.topic; %> 
+    </div>
+    
+
+    <%-include('./inc/footer.ejs') %>
+
+    <script>
+        // Like get
+        const like = $('button.like')
+
+        const likes = [].slice.call(like)
+
+        likes.forEach((item, i)=>{
+            item.addEventListener('click', (e)=>{
+                const url = `/entry/like/${item.dataset.doc}`
+                fetch(url,{
+                    method: 'GET'
+                }).then((response)=>response.json())
+                .then((data)=>{
+                    $('#like'+ data._id).text(data.likes.count)
+                    var img = '/liked.svg'
+                    var img1 = '/non-liked.svg'
+                    $(item).children().attr('src', $(item).children().attr('src') == img ? img1 : img)
+                    
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+            })
+        })
+
+        //Delete get
+        const del = $('a.del')
+
+        const dels = [].slice.call(del)
+
+        dels.forEach((item, i)=>{
+
+
+            item.addEventListener('mouseover', (e)=>{
+                if($(this).attr('src' ) == '/non-liked.svg'){
+                    $(item).attr('src', '/liked.svg' )
+                }
+            })
+            
+            item.addEventListener('click',(e)=>{
+                const url = `/entry/delete/${item.dataset.doc}`
+                fetch(url,{
+                    method: 'DELETE'
+                })
+                .then((response)=>response.json())
+                .then((data)=>{
+                    if(data){
+                        window.location.reload()
+                    }else{
+                        alert('Could not deleted')
+                    }
+
+                })
+                .catch((error)=>{
+                    console.error(error)
+                })
+            })
+        })
+
+        
+
+
+
+    
+
+var form = document.getElementById('addEntry');
+
+//Create entry post
+function createEntry(event){
+    const body = "topic="+"<%= test  %>"+"&entry="+editor.getData();
+
+        console.log(body)
+        var xhr = new XMLHttpRequest();
+        var formData = new FormData(form);
+        formData.append('topic',"<%= test  %>")
+        //open the request
+        xhr.open('POST','/entry/add')
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        //send the form data
+        xhr.send(body);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                window.location.reload();//reset form after AJAX success or do something else
+            }
+        }
+        //Fail the onsubmit to avoid page refresh.
+        event.preventDefault();
+        return false; 
+    }
+
+
+    //Focus
+    $('document').on('focus')
+
+
+        
+    </script>
+    <script src="/ckeditor/build/ckeditor.js"></script>
+    <script>
+        BalloonEditor
+            .create( document.querySelector( '#entry' ) ,{
+
+                link: {
+            decorators: {
+                addTargetToExternalLinks: {
+                    mode: 'automatic',
+                    callback: url => /^(https?:)?\/\//.test( url ),
+                    attributes: {
+                        target: '_blank',
+                        rel: 'noopener noreferrer'
+                    }
+                }
+            }
+        }
+            })
+            .then( editor => {
+                window.editor = editor;
+            } )
+            
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<div class="container">
+    <nav class="nav navbar-expand-md navbar-light ">
+        <a href="/index" class="navbar-brand">
+            <img src="/logoyaz1.png" alt="" width="300" height="40"
+                class="d-inline-block align-top"></a>
+        <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toogle="collapse"
+        data-bs-target="#toggleMobileMenu"
+        aria-controls="toggleMobileMenu"
+        aria-expanded="false"
+        aria-label="Toogle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="toggleMobileMenu">
+
+            <ul class="navbar-nav">
+                <% if(user){%>
+                <li>
+                    <div class="dropdown mb-3 ">
+                        <a href="/topic/index" class="dropa nav-link">entries</a>
+                        <div class="dropdown-content">
+                            <a href="/topic/index">explore</a>
+                            <a href="/topic/yourpage">your page</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="/entry/add" class="nav-link">add entry</a>
+                </li>
+                <%} else {%>
+                    <li>
+                        <a href="/topic/index" class="nav-link ">entries</a>
+                    </li>
+                    <% }%>
+            </ul>
+            <ul class="navbar-nav ms-auto">   
+                
+                <% if(user){%>
+                    <li>
+                        <div class="dropdown">
+                            <a href="/user/<%=user.username%>" class="dropa nav-link">
+                                <img class="profilephotograph" src="data:<%=user.picture.contentType%>;base64,<%=user.picture.data.toString('base64')%>" alt="profile image" width="40" height="40"
+                                class="d-inline-block align-top">       
+                            <%=user.username%></a>
+                            <div class="dropdown-content">
+                              <a href="/user/<%=user.username%>">profile</a>
+                              <a href="/user/changepassword">
+                                <img src="/password.svg" alt="change password" width="25" height="25" class="d-inline-block align">  
+                                change password</a>
+                              <a href="/user/logout">
+                                <img src="/logout.svg" alt="logout" width="25", height="25"
+                                class="d-inline-block align-top">  
+                                log out</a>
+                            </div>
+                          </div>
+                        </li>
+                        <%} else{%>
+                            <li><a class="nav-link" href="/user/login">Login</a></li>
+                            <li><a class="nav-link" href="/user/signup">Signup</a></li>
+                            <%}%>
+            </ul>
+            
+        </div>
+    </nav>
+</div>

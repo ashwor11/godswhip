@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./inc/head.ejs')%>
+</head>
+<body>
+    <%- include('./inc/nav.ejs')%>
+
+    
+    <div class="container mt-2">
+    <form action="/user/update/<%= user.username%>" id="updateUser" enctype="multipart/form-data" method="post" onsubmit="return updateUser(event);">
+        <div class=" entry editable" id="biography" name="biography" rows="10" placeholder="Write what you think" ><%-user.biography%></div>
+        <div class="text-center mt-2"><input type="file" id="image" name="image" value="profile photo" class="btn btn-secondary" accept="image/png, image/jpeg, image/jpg" ></div>
+        <div class="text-center mt-2"><button class="btn btn-secondary"> Update</button></div>
+    </form>
+</div>
+
+<%-include('./inc/footer.ejs') %>
+
+
+    <script>
+
+var form = document.getElementById('updateUser');
+
+function updateUser(event){
+    const body = "username="+"<%= user.username  %>"+"&biography="+editor.getData();
+
+        console.log(body)
+        var xhr = new XMLHttpRequest();
+        var formData = new FormData(form);
+        formData.append('username',"<%= user.username  %>")
+        //open the request
+        xhr.open('POST','/user/update/<%= user.username%>')
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        //send the form data
+        xhr.send(body);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                window.location.href = ("/user/<%=user.username%>");
+            }
+        }
+        //Fail the onsubmit to avoid page refresh.
+       
+    }
+
+
+    //Focus
+    $('document').on('focus')
+
+
+        
+    </script>
+    <script src="/ckeditor/build/ckeditor.js"></script>
+    <script>
+        BalloonEditor
+            .create( document.querySelector( '#biography' ) ,{
+                placeholder:"introduce yourself",
+
+                link: {
+            decorators: {
+                addTargetToExternalLinks: {
+                    mode: 'automatic',
+                    callback: url => /^(https?:)?\/\//.test( url ),
+                    attributes: {
+                        target: '_blank',
+                        rel: 'noopener noreferrer'
+                    }
+                }
+            }
+        }
+            })
+            .then( editor => {
+                window.editor = editor;
+            } )
+    </script>
+    
+</body>
+</html>

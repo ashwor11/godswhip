@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('./inc/head.ejs')%>
+</head>
+<body>
+    <%-include('./inc/nav.ejs')%>
+    <div class="container">
+        <div class="ml-3 mt-3 col-md-12">
+            <form action="/entry/add" method="post" id="addEntry" onsubmit="return createEntry(event);" >
+                <input type="text" name="topic" id="topic" class="form-control signInput" placeholder="Topic" required>
+                <div class="col-md-12 entry mt-2" id="entry" name="entry" rows="10"  ></div>
+                <button id="addEntry1" type="submit" class="btn btn-secondary mt-2">Submit</button>
+            </form>
+            
+        </div>
+    </div>
+    
+
+
+    <%-include('./inc/footer.ejs') %>
+
+    <script src="/ckeditor/build/ckeditor.js"></script>
+    <script>
+        BalloonEditor
+            .create( document.querySelector( '#entry' ) ,{
+                placeholder:"write what you think",
+
+                link: {
+            decorators: {
+                addTargetToExternalLinks: {
+                    mode: 'automatic',
+                    callback: url => /^(https?:)?\/\//.test( url ),
+                    attributes: {
+                        target: '_blank',
+                        rel: 'noopener noreferrer'
+                    }
+                }
+            }
+        }
+            })
+            .then( editor => {
+                window.editor = editor;
+            } )
+            
+    </script>
+    <script>
+        var form = document.getElementById('addEntry');
+
+//Create entry post
+function createEntry(event){
+    var topic = $('#topic').val().toString();
+    const body = "topic="+topic+"&entry="+editor.getData();
+
+        console.log(body)
+        var xhr = new XMLHttpRequest();
+        var formData = new FormData(form);
+        formData.append('topic',topic)
+        //open the request
+        xhr.open('POST','/entry/add')
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        //send the form data
+        xhr.send(body);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                window.open("/topic/"+topic)//reset form after AJAX success or do something else
+            }
+        }
+        //Fail the onsubmit to avoid page refresh.
+        event.preventDefault();
+        return false; 
+    }
+    </script>
+</body>
+</html>

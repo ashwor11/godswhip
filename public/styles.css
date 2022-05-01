@@ -1,0 +1,143 @@
+.follow{
+    background-color: blanchedalmond;
+}
+
+.unfollow{
+    background-color: red;
+}
+
+/* Dropdown Button */
+.dropa {
+    
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #6C757D;
+    color: #870058;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius:8px;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: #870058;
+    background-color: #6C757D;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #6C757D; color: #FFECCC;}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+
+  /* Change like button color when hovered */
+
+
+
+  button {
+    
+    box-shadow: none !important;
+}
+
+
+
+
+
+.underline{
+  text-decoration: none !important;
+  color:  #870058  !important;
+}
+a.underline:hover{
+  text-decoration: underline !important;
+  
+}
+
+body{
+  background-color: #85756E !important;
+}FFECCC
+
+
+.entry,entry,#entry,#biography{
+  border: 3px solid #870058 !important;
+  
+}
+div > .entry{
+  
+  
+}
+div > .entry > p > a{
+  color: #870058;
+  
+}
+.entryTopic{
+  color:#FFECCC !important;
+}
+ul.indexList{
+  list-style: none;
+}
+ul.indexList li::before{
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  font-weight: bold; /* If you want it to be bold */
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em; /* Also needed for space (tweak if needed) */
+  margin-left: -1em;
+  color:#FFECCC !important;
+}
+
+.signError{
+  color: #FFECCC;
+}
+
+.signInput{
+  width: 40% !important;
+  background: #870058  !important;
+  opacity: 0.75;
+  box-shadow: none !important;
+  border: 3px solid #870058;
+  color: #FFECCC !important;
+}
+
+.profilephotograph{
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.coloredText{
+  color: #FFECCC;
+  
+}
+h1,h2,h3,h4,h5,h6{
+  color: #870058 !important;
+}
+
+.ck.ck-editor__editable > .ck-placeholder::before {
+  color: #870058;
+  font-family: Georgia;
+}
+
