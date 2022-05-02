@@ -65,7 +65,7 @@ function createEntry(event){
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState == XMLHttpRequest.DONE) {
-                window.open("/topic/"+topic)//reset form after AJAX success or do something else
+                window.location.href = ("/topic/"+topic)//reset form after AJAX success or do something else
             }
         }
         //Fail the onsubmit to avoid page refresh.
