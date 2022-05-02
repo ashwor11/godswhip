@@ -23,7 +23,7 @@
                 <button class="btn btn-sm like" data-doc="<%=entry._id%>" id="likebtn"> <img class=""src="<%=liked%>" width="25" height="25" class="d-inline-block align"></button><small class="mt-1 pe-2" id="like<%=entry._id%>"><%= entry.likes.count%></small><small class="mt-1 underline " href="/user/<%=entry.author%>">written by <a class="underline" href="/user/<%=entry.author%>"><%=entry.author%></a></small>
                 
             </div>
-            <small class="d-flex justify-content-end "><%= entry.createdAt.toDateString()%> ~ <%=entry.createdAt.getHours()%>:<%=('0'+entry.createdAt.getMinutes()).slice(-2)%></small>
+            <small class="d-flex justify-content-end "><%= entry.createdAt.toDateString()%> ~ <%=('0'+entry.createdAt.getHours()).slice(-2)%>:<%=('0'+entry.createdAt.getMinutes()).slice(-2)%></small>
             
         <%})%>
         <% } %>

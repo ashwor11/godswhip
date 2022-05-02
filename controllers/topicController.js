@@ -36,7 +36,7 @@ const topic_index_followed_get = async (req,res)=>{
     }
     await User.find(user)
     .then(async(result)=>{
-        await Entry.find({author: {$in: user.followings}})
+        await Entry.find({author: {$in: user.followings}}).sort('-createdAt')
         .then(async(result)=>{
             entries = result;
             for(let entry of entries){
