@@ -17,7 +17,7 @@
         }%>
             <hr>
             <div id="<%=entry._id %>" class="entry"><%- entry.entry%></div>
-            <% if (user && (user.isAdmin || user.username == entry.author)){ %> <a class="del underline d-flex justify-content-end" href="" data-doc="<%=entry._id%>">Delete</a>%> <% } %>
+            <% if (user && (user.isAdmin || user.username == entry.author)){ %> <div class=" justify-content-end d-flex"><a class="del underline text-right" href="" data-doc="<%=entry._id%>">Delete</a></div>%> <% } %>
             <div class="d-flex justify-content-end p-2">
                 
                 <button class="btn btn-sm like" data-doc="<%=entry._id%>" id="likebtn"> <img class=""src="<%=liked%>" width="25" height="25" class="d-inline-block align"></button><small class="mt-1 pe-2" id="like<%=entry._id%>"><%= entry.likes.count%></small><small class="mt-1 underline " href="/user/<%=entry.author%>">written by <a class="underline" href="/user/<%=entry.author%>"><%=entry.author%></a></small>
