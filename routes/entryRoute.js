@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const entryController = require('../controllers/entryController')
+const {requireAuth} = require('../middlewares/authMiddleware');
 
+router.use(requireAuth)
 
 router.get('/add', entryController.entry_add_get)
 router.post('/add', entryController.entry_add_post)

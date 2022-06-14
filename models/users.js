@@ -80,7 +80,8 @@ userSchema.statics.login = async function(username,password){
 
 userSchema.pre('save', async function(next){
 
-    if(!this.isModified('password')){
+    if(this.isModified('password')){
+        console.log("modified")
         const salt = await bcrypt.genSalt()
         this.password = await bcrypt.hash(this.password,salt)
     }

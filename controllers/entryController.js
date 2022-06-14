@@ -3,7 +3,7 @@ const Topic = require('../models/topics')
 const User = require('../models/users')
 const mongoose = require('mongoose')
 
-const entry_add_get = (req, res) =>{
+const entry_add_get = (req, res, requireAuth) =>{
     res.render('add.ejs', {title: "New Entry"})
 }
 
