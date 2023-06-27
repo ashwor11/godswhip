@@ -28,8 +28,8 @@ require('dotenv').config();
 
 const app = express();
 
-const dbURL = process.env.CONNECTION_URL
-const PORT = process.env.PORT || 80
+const dbURL = process.env.APPSETTING_CONNECTION_URL
+const PORT = process.env.APPSETTING_PORT || 80
 mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true,})
     .then((result)=>{app.listen(PORT)})
     .catch((err)=>{console.log(err)})
